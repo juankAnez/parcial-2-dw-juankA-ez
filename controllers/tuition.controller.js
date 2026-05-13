@@ -36,7 +36,7 @@ const handleSequelizeError = (res, error) => {
 const getAllTuitions = async (req, res) => {
   try {
     const tuitions = await Tuition.findAll({
-      include: [{ model: Car, as: 'cars', attributes: ['id', 'marca', 'clase', 'modelo'] }],
+      include: [{ model: Car, as: 'car', attributes: ['id', 'marca', 'clase', 'modelo'] }],
       order: [['id', 'ASC']],
     });
     return response(res, 200, 'success', `${tuitions.length} matrículas encontradas`, tuitions);
@@ -52,7 +52,7 @@ const getTuitionById = async (req, res) => {
   try {
     const { id } = req.params;
     const tuition = await Tuition.findByPk(id, {
-      include: [{ model: Car, as: 'cars', attributes: ['id', 'marca', 'clase', 'modelo'] }],
+      include: [{ model: Car, as: 'car', attributes: ['id', 'marca', 'clase', 'modelo'] }],
     });
 
     if (!tuition) {
