@@ -208,7 +208,9 @@ SQLSERVER_DB=parcial2
 SQLSERVER_PORT=1433
 ```
 
-**Captura de referencia:** `fotos/.env.png`
+**Captura de referencia:**
+
+![Variables de entorno configuradas](fotos/.env.png)
 
 #### Descripción de variables
 
@@ -238,7 +240,7 @@ Los modelos se definen mediante **factory functions** que reciben una instancia 
 
 **Archivo:** `models/Car.js`
 
-![Modelo Car](fotos/model%20cars.png)
+![Modelo Car.js — definición completa del schema](fotos/model%20cars.png)
 
 ```javascript
 const defineCarModel = (sequelize) => {
@@ -272,7 +274,7 @@ const defineCarModel = (sequelize) => {
 
 **Archivo:** `models/Tuition.js`
 
-![Modelo Tuition](fotos/models%20tuitions.png)
+![Modelo Tuition.js — definición completa del schema](fotos/models%20tuitions.png)
 
 ```javascript
 const defineTuitionModel = (sequelize) => {
@@ -310,7 +312,7 @@ const defineTuitionModel = (sequelize) => {
 
 **Archivo:** `controllers/car.controller.js`
 
-![Controlador Cars](fotos/controlador%20cars.png)
+![Controlador Cars — funciones CRUD completas](fotos/controlador%20cars.png)
 
 Funciones CRUD:
 
@@ -372,7 +374,7 @@ Base path: `/api`
 
 **Archivo:** `routes/cars.routes.js`
 
-![Rutas Cars](fotos/ruta%20cars.png)
+![Rutas Cars — endpoints REST definidos](fotos/ruta%20cars.png)
 
 | Método | Ruta | Controlador | Validaciones |
 |--------|------|-------------|--------------|
@@ -386,7 +388,7 @@ Base path: `/api`
 
 **Archivo:** `routes/tuitions.routes.js`
 
-![Rutas Tuitions](fotos/ruta%20tuitions.png)
+![Rutas Tuitions — endpoints REST definidos](fotos/ruta%20tuitions.png)
 
 | Método | Ruta | Controlador | Validaciones |
 |--------|------|-------------|--------------|
@@ -402,7 +404,7 @@ Base path: `/api`
 
 ### Validaciones Cars (`middlewares/car.validator.js`)
 
-![Validaciones Cars](fotos/car%20valideition.png)
+![Validaciones Cars — middleware express-validator](fotos/car%20valideition.png)
 
 ```javascript
 const carValidationRules = [
@@ -438,7 +440,7 @@ const carValidationRules = [
 
 ### Validaciones Tuitions (`middlewares/tuition.validator.js`)
 
-![Validaciones Tuitions](fotos/tuition%20valideition.png)
+![Validaciones Tuitions — middleware express-validator](fotos/tuition%20valideition.png)
 
 ```javascript
 const tuitionValidationRules = [
@@ -484,7 +486,7 @@ Además de los middleware, los modelos definen validaciones nativas de Sequelize
 
 **Archivo:** `config/mysql.js`
 
-![Configuración MySQL](fotos/config%20msql.png)
+![Configuración MySQL — archivo completo](fotos/config%20msql.png)
 
 ```javascript
 const mysqlDB = new Sequelize(
@@ -510,7 +512,7 @@ const mysqlDB = new Sequelize(
 
 **Archivo:** `config/mssql.js`
 
-![Configuración SQL Server](fotos/configt%20mssql.png)
+![Configuración SQL Server — archivo completo](fotos/configt%20mssql.png)
 
 ```javascript
 const mssqlDB = new Sequelize(SQLSERVER_DB, SQLSERVER_USER, SQLSERVER_PASSWORD || '', {
@@ -534,7 +536,7 @@ const mssqlDB = new Sequelize(SQLSERVER_DB, SQLSERVER_USER, SQLSERVER_PASSWORD |
 
 #### Tabla `cars`
 
-![Tabla cars en MySQL](fotos/tabla%20cars%20en%20mysql.png) ![Tabla cars en SQL Server](fotos/tabla%20cars%20en%20sqlserver.png)
+![Estructura tabla cars en MySQL Workbench](fotos/tabla%20cars%20en%20mysql.png) ![Estructura tabla cars en SQL Server Management Studio](fotos/tabla%20cars%20en%20sqlserver.png)
 
 ```sql
 CREATE TABLE cars (
@@ -553,7 +555,7 @@ CREATE TABLE cars (
 
 #### Tabla `tuitions`
 
-![Tabla tuitions en MySQL](fotos/tabla%20tuitions%20en%20mysql.png) ![Tabla tuitions en SQL Server](fotos/tabla%20tuitions%20en%20sqleserver.png)
+![Estructura tabla tuitions en MySQL Workbench](fotos/tabla%20tuitions%20en%20mysql.png) ![Estructura tabla tuitions en SQL Server Management Studio](fotos/tabla%20tuitions%20en%20sqleserver.png)
 
 ```sql
 CREATE TABLE tuitions (
@@ -630,7 +632,7 @@ Luego reiniciar el servidor. El sistema automáticamente:
 
 Inserta 20 vehículos con datos fake generados por Faker.js:
 
-![Datos fake de cars](fotos/datos%20de%20faker%20en%20cars.png)
+![Salida del seeder cars — 20 registros insertados](fotos/datos%20de%20faker%20en%20cars.png)
 
 ```javascript
 const marcas = ['Toyota', 'Chevrolet', 'Mazda', 'Renault', 'Ford', 'Honda', 'Kia', 'Nissan', 'Hyundai', 'Volkswagen'];
@@ -654,7 +656,7 @@ await Car.bulkCreate(fakeCars, { validate: true });
 
 Inserta 20 matrículas asociadas a vehículos existentes:
 
-![Faker en tuitions MySQL](fotos/faker%20en%20tuitions%20mysql.png)
+![Salida del seeder tuitions — 20 matrículas insertadas en MySQL](fotos/faker%20en%20tuitions%20mysql.png)
 
 ```javascript
 const ciudades = [
@@ -691,7 +693,7 @@ npm run seed:tuitions  # Solo tuitions
 
 ### Instalación
 
-![Servidor corriendo](fotos/servidor%20corriendo.png) ![Servidor conectado a MySQL](fotos/servidor%20corriendo%20y%20conectado%20mysql.png)
+![Servidor Express iniciado correctamente en puerto 3000](fotos/servidor%20corriendo.png) ![Conexión exitosa a MySQL desde el servidor](fotos/servidor%20corriendo%20y%20conectado%20mysql.png)
 
 ```bash
 # 1. Clonar repositorio
@@ -738,11 +740,9 @@ DELETE /api/tuitions/:id   # Eliminar matrícula
 
 El archivo `http.http` contiene 22 requests de prueba agrupados:
 
-#### Métodos GET
-![GET por ID](fotos/metodo%20get%20por%20id.png)
+#### Métodos GET, POST, PUT, DELETE
 
-#### Métodos POST, PUT, DELETE
-![POST](fotos/metodo%20post.png) ![PUT](fotos/metodo%20put.png) ![DELETE](fotos/metood%20delete.png) ![POST Tuition](fotos/post%20por%20id.png)
+![GET por ID — obtener recurso por identificador](fotos/metodo%20get%20por%20id.png) ![POST — crear nuevo recurso](fotos/metodo%20post.png) ![PUT — actualizar recurso existente](fotos/metodo%20put.png) ![DELETE — eliminar recurso](fotos/metood%20delete.png) ![POST Tuition — crear matrícula](fotos/post%20por%20id.png)
 
 ```http
 ### GET /api/cars — Listar todos
@@ -804,132 +804,186 @@ Esto imprimirá todas las consultas SQL generadas por Sequelize en consola.
 
 ## 13. Solución de Problemas
 
-### Problema: Los datos de `tuition` se guardaban en tabla `cars`
+... (contenido existente) ...
 
-**Causa raíz:** En `database/db.js` se usaba `defineCarModel` para crear el modelo de `Tuition` (líneas 15 y 19). Esto generaba un modelo idéntico a `Car`.
+---
 
-**Solución:** Reemplazar con `defineTuitionModel`:
+## 14. Herramientas y Asistencia de IA
 
-```javascript
-// ❌ Incorrecto
-const TuitionMySQL = defineCarModel(mysqlDB);
+### Herramientas Utilizadas
 
-// ✅ Correcto
-const TuitionMySQL = defineTuitionModel(mysqlDB);
+Durante el desarrollo de este proyecto se utilizaron las siguientes herramientas:
+
+| Herramienta | Versión | Uso en el proyecto |
+|-------------|---------|-------------------|
+| **Visual Studio Code** | 1.92+ | Editor principal de código |
+| **REST Client Extension** | 0.12+ | Pruebas de endpoints HTTP directamente desde VS Code |
+| **Git** | 2.40+ | Control de versiones y commits |
+| **GitHub Desktop / CLI** | — | Gestión de repositorio remoto |
+| **MySQL Workbench / phpMyAdmin** | — | Administración y visualización de base de datos MySQL |
+| **SQL Server Management Studio (SSMS)** | 18+ | Administración y visualización de base de datos SQL Server |
+| **Node.js** | v16+ | Runtime de ejecución |
+| **Postman** | 10+ | (Alternativo) pruebas de API |
+| **Faker.js** | 10.4.0 | Generación de datos falsos para seeders |
+
+### Asistencia de Inteligencia Artificial
+
+El proyecto se desarrolló con apoyo de asistentes de IA en las siguientes áreas:
+
+#### 1. **Diseño de arquitectura inicial**
+- Revisión de estructura MVC propuesta
+- Validación de patrones de diseño para Express.js
+- Sugerencias de organización de carpetas
+
+#### 2. **Debugging y corrección de errores**
+- Identificación del problema de `car_id` con IDENTITY en SQL Server
+- Detección de la factory incorrecta (`defineCarModel` vs `defineTuitionModel`)
+- Diagnóstico de asociaciones faltantes entre modelos
+- Solución del error de validación `min: 1` en `car_id`
+
+#### 3. **Optimización de código**
+- Refactorización de `database/db.js` para selección dinámica de motor
+- Mejora de mensajes de error en controladores
+- Sugerencias de buenas prácticas en Sequelize
+
+#### 4. **Documentación**
+- Estructuración del documento `documentacion.md`
+- Formato profesional y redacción técnica
+- Inclusión de imágenes y referencias visuales
+- Generación de tablas comparativas y de configuración
+
+#### 5. **Scripts de diagnóstico**
+- Creación de `check-tables.js` para inspección de esquema
+- Script `fix-identity.js` para corrección de IDENTITY en SQL Server
+- Script `test-insert.js` para verificación de inserciones
+
+### Flujo de trabajo con IA
+
+El proceso iterativo con asistencia de IA siguió este patrón:
+
+1. **Identificación del problema**: Lectura de logs de error y análisis de código
+2. **Consulta a IA**: Descripción detallada del error + código relevante
+3. **Propuesta de solución**: Análisis de causas raíz y pasos de corrección
+4. **Implementación**: Aplicación de cambios en el código
+5. **Verificación**: Ejecución de pruebas y validación de resultados
+6. **Commit**: Registro de cambios con mensajes descriptivos
+
+### Prompt completo utilizado para generación de documentación
+
+Este es el prompt profesional que se utilizó para solicitar la creación de la documentación completa:
+
+```
+Eres un ingeniero de software senior con expertise en Node.js, Express, Sequelize y arquitectura MVC. Debes crear una documentación técnica profesional para un proyecto API REST con las siguientes características:
+
+PROYECTO:
+- API REST CRUD completa para 2 tablas relacionadas: `cars` y `tuitions`
+- Doble soporte de base de datos: MySQL y SQL Server con selección dinámica
+- Motor de selección: variable de entorno `DB_ENGINE` (mysql/mssql)
+- Validaciones en 2 niveles: middleware (express-validator) + modelo (Sequelize)
+- Relación 1:N entre cars y tuitions con CASCADE
+- Seeders con Faker.js (20 registros cada tabla)
+- Manejo centralizado de errores
+- Respuestas JSON estandarizadas
+
+ESTRUCTURA DEL PROYECTO:
+partial-2-dw-juankA-ez/
+├── config/ (mysql.js, mssql.js)
+├── controllers/ (car.controller.js, tuition.controller.js)
+├── models/ (Car.js, Tuition.js — factory functions)
+├── routes/ (index.js, cars.routes.js, tuitions.routes.js)
+├── middlewares/ (car.validator.js, tuition.validator.js, errorHandler.js)
+├── seeders/ (cars.seeder.js, tuitions.seeder.js)
+├── database/db.js (conexión, modelos, asociaciones, selección de motor)
+├── fotos/ (25 capturas de pantalla)
+├── app.js, server.js, package.json, .env, .env.example
+└── http.http (requests REST Client)
+
+PROBLEMAS RESUELTOS:
+1. Modelo Tuition se creaba con factory de Car → datos iban a tabla cars
+2. Falta de asociaciones hasMany/belongsTo → include no funcionaba
+3. IDs en SQL Server empezaban en 0 → validación car_id min:1 fallaba
+4. Alias incorrecto en includes (`cars` vs `car`)
+
+REQUERIMIENTOS DE DOCUMENTACIÓN:
+- Estructura profesional con 14 secciones numeradas
+- Incluir TODAS las imágenes de /fotos en su contexto correspondiente
+- Código fuente con sintaxis resaltada
+- Tablas de especificación de modelos
+- Diagrama de arquitectura MVC en ASCII
+- Tabla de variables de entorno con descripción
+- Explicación detallada de selección dinámica de motor
+- Troubleshooting de problemas comunes
+- Anexo organizado con tabla de imágenes + ubicación
+
+FORMATO:
+Markdown con encabezados jerárquicos, tablas, bloques de código, diagramas ASCII.
+No usar lenguaje conversacional, tono técnico y profesional.
+Toda imagen debe incrustarse con `![alt text](ruta)`.
 ```
 
-### Problema: Error validación `car_id` (min: 1) pero ID empieza en 0
+### Prompt para replicar el proyecto
 
-**Causa:** En SQL Server, la columna `id` de `cars` tenía el IDENTITY configurado con seed 0.
+Si deseas que una IA genere un proyecto similar con las mismas características, utiliza este prompt:
 
-**Solución:** Ejecutar en SQL Server:
-
-```sql
-DBCC CHECKIDENT (cars, RESEED, 0);
-DBCC CHECKIDENT (tuitions, RESEED, 0);
 ```
+Crea una API REST completa con Express.js y Sequelize que cumpla:
 
-Esto reinicia el contador para que el próximo ID sea 1.
+1. **Entidades**:
+   - `cars`: id, marca (varchar 100), clase (varchar 80), modelo (int), cilindraje (float), capacidad (int), pago (decimal 12,2)
+   - `tuitions`: id, date_matricula (date), ciudad (varchar 100), car_id (int, FK a cars)
 
-### Problema: `include` en `Tuition.findAll` no funciona
+2. **Relación**: 1:N (Un carro tiene muchas matrículas) con ON DELETE CASCADE
 
-**Causa:** No estaban configuradas las asociaciones `hasMany`/`belongsTo` entre modelos.
+3. **Validaciones**:
+   - Cars: marca (2-100 chars), clase (2-80 chars), modelo (1900-año+1), cilindraje (>0.1), capacidad (1-50), pago (≥0)
+   - Tuitions: date_matricula (YYYY-MM-DD), ciudad (2-100 chars), car_id (entero positivo, debe existir en cars)
 
-**Solución:** En `database/db.js` agregar:
+4. **Doble motor de BD**:
+   - MySQL (puerto 3306)
+   - SQL Server (puerto 1433, tedious)
+   - Selección dinámica mediante variable `DB_ENGINE` en .env
+   - Factory functions para modelos (registrar en ambas conexiones)
+   - Asociaciones configuradas en ambos motores
 
-```javascript
-Car.hasMany(Tuition, { foreignKey: 'car_id', as: 'tuitions', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
-Tuition.belongsTo(Car, { foreignKey: 'car_id', as: 'car', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
-```
+5. **Controladores CRUD**:
+   - GET /api/cars, GET /api/cars/:id
+   - POST /api/cars, PUT /api/cars/:id, DELETE /api/cars/:id
+   - GET /api/tuitions (con include de car), GET /api/tuitions/:id (con include)
+   - POST /api/tuitions, PUT /api/tuitions/:id, DELETE /api/tuitions/:id
 
-### Problema: Cambiar motor de BD no surte efecto
+6. **Middleware**:
+   - express-validator para validación de entrada
+   - errorHandler centralizado (captura SequelizeValidationError, UniqueConstraint, FK)
+   - Respuestas JSON consistentes: { status, message, data? }
 
-**Solución:**
-1. Detener servidor (Ctrl+C)
-2. Editar `.env` → `DB_ENGINE=mysql` o `DB_ENGINE=mssql`
-3. Reiniciar servidor
+7. **Seeders**:
+   - cars.seeder.js: 20 registros fake con Faker.js (marcas reales, clases, años 2000-2024)
+   - tuitions.seeder.js: 20 registros fake, asociados a cars existentes (máximo 20)
 
-### Problema: Tablas no existen
+8. **Archivos de configuración**:
+   - config/mysql.js (Sequelize + MySQL2)
+   - config/mssql.js (Sequelize + tedious)
+   - database/db.js (conexiones, modelos, asociaciones, selección de motor)
 
-Sequelize las crea automáticamente al ejecutar `sync()` en `server.js`. Si no, verificar:
-- Credenciales correctas en `.env`
-- Bases de datos corriendo
-- Permisos de usuario para crear tablas
+9. **Documentación**:
+   - README.md completo con tabla de contenidos
+   - Capturas de pantalla en carpeta /fotos
+   - Archivo http.http con 22 requests REST Client
+   - documentacion.md aparte con secciones técnicas detalladas
 
-### Problema: Puerto 3000 ocupado
+10. **Requisitos técnicos**:
+    - Node.js v16+
+    - .env con todas las variables
+    - .env.example de referencia
+    - scripts npm: start, dev, seed, seed:cars, seed:tuitions
+    - sync({ alter: true }) para crear tablas automáticamente
 
-Cambiar puerto en `.env`:
-```env
-PORT=4000
+Entregable: Código fuente completo + documentación markdown + capturas de pantalla organizadas.
 ```
 
 ---
 
-## 14. Anexo: Capturas de Pantalla
-
-La carpeta `fotos/` contiene capturas de referencia del sistema funcionando. A continuación se detalla cada imagen con su ubicación en la documentación:
-
-### Configuración y Entorno
-
-| Imagen | Descripción | Ubicación en documento |
-|--------|-------------|------------------------|
-| ![.env](fotos/.env.png) | Variables de entorno configuradas | Sección 3 |
-| ![MySQL config](fotos/config%20msql.png) | Configuración MySQL (config/mysql.js) | Sección 8.1 |
-| ![SQL Server config](fotos/configt%20mssql.png) | Configuración SQL Server (config/mssql.js) | Sección 8.2 |
-
-### Modelos
-
-| Imagen | Descripción | Ubicación en documento |
-|--------|-------------|------------------------|
-| ![Modelo Car](fotos/model%20cars.png) | Modelo Car.js completo | Sección 4 |
-| ![Modelo Tuition](fotos/models%20tuitions.png) | Modelo Tuition.js completo | Sección 4 |
-
-### Rutas y Controladores
-
-| Imagen | Descripción | Ubicación en documento |
-|--------|-------------|------------------------|
-| ![Rutas Cars](fotos/ruta%20cars.png) | routes/cars.routes.js | Sección 6.2 |
-| ![Rutas Tuitions](fotos/ruta%20tuitions.png) | routes/tuitions.routes.js | Sección 6.3 |
-| ![Controlador Cars](fotos/controlador%20cars.png) | controllers/car.controller.js | Sección 5.1 |
-
-### Validaciones
-
-| Imagen | Descripción | Ubicación en documento |
-|--------|-------------|------------------------|
-| ![Validaciones Cars](fotos/car%20valideition.png) | Validaciones de cars (car.validator.js) | Sección 7.1 |
-| ![Validaciones Tuitions](fotos/tuition%20valideition.png) | Validaciones de tuitions (tuition.validator.js) | Sección 7.2 |
-
-### Métodos HTTP de ejemplo
-
-| Imagen | Descripción | Ubicación en documento |
-|--------|-------------|------------------------|
-| ![GET por ID](fotos/metodo%20get%20por%20id.png) | GET /api/cars/:id | Sección 12 |
-| ![POST](fotos/metodo%20post.png) | POST /api/cars (éxito) | Sección 12 |
-| ![PUT](fotos/metodo%20put.png) | PUT /api/cars/:id | Sección 12 |
-| ![DELETE](fotos/metood%20delete.png) | DELETE /api/cars/:id | Sección 12 |
-| ![POST Tuition](fotos/post%20por%20id.png) | POST /api/tuitions | Sección 12 |
-
-### Datos y Tablas
-
-| Imagen | Descripción | Ubicación en documento |
-|--------|-------------|------------------------|
-| ![Datos fake cars](fotos/datos%20de%20faker%20en%20cars.png) | Salida del seeder cars | Sección 10.1 |
-| ![Faker tuitions](fotos/faker%20en%20tuitions%20mysql.png) | Salida del seeder tuitions | Sección 10.2 |
-| ![Tabla cars MySQL](fotos/tabla%20cars%20en%20mysql.png) | Estructura tabla cars en MySQL | Sección 8.3 |
-| ![Tabla tuitions MySQL](fotos/tabla%20tuitions%20en%20mysql.png) | Estructura tabla tuitions en MySQL | Sección 8.3 |
-| ![Tabla cars SQL Server](fotos/tabla%20cars%20en%20sqlserver.png) | Estructura tabla cars en SQL Server | Sección 8.3 |
-| ![Tabla tuitions SQL Server](fotos/tabla%20tuitions%20en%20sqleserver.png) | Estructura tabla tuitions en SQL Server | Sección 8.3 |
-
-### Servidor
-
-| Imagen | Descripción | Ubicación en documento |
-|--------|-------------|------------------------|
-| ![Servidor corriendo](fotos/servidor%20corriendo.png) | Servidor Express iniciado | Sección 11 |
-| ![MySQL conectado](fotos/servidor%20corriendo%20y%20conectado%20mysql.png) | Conexión exitosa a MySQL | Sección 11 |
-
----
-
-## Notas Finales
+## 15. Notas Finales
 
 1. **IDs en SQL Server:** Tras reiniciar el identity con `DBCC CHECKIDENT`, los IDs comienzan en 1 y cumplen la validación `min: 1`.
 
