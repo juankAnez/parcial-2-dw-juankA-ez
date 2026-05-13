@@ -1,0 +1,169 @@
+### ============================================================
+### API Parcial 2 - DW | Pruebas HTTP
+### Usar con extensión REST Client de VS Code
+### Servidor: http://localhost:3000
+### ============================================================
+
+
+### ============================================================
+### TABLA: cars (MySQL)
+### ============================================================
+
+### [1] GET - Obtener todos los vehículos
+GET http://localhost:3000/api/cars
+Content-Type: application/json
+
+###
+
+### [2] GET BY ID - Obtener vehículo por ID
+GET http://localhost:3000/api/cars/1
+Content-Type: application/json
+
+###
+
+### [3] POST - Crear un nuevo vehículo
+POST http://localhost:3000/api/cars
+Content-Type: application/json
+
+{
+  "marca": "Toyota",
+  "clase": "SUV",
+  "modelo": 2022,
+  "cilindraje": 2.5,
+  "capacidad": 5,
+  "pago": 85000000
+}
+
+###
+
+### [4] PUT - Actualizar vehículo por ID
+PUT http://localhost:3000/api/cars/1
+Content-Type: application/json
+
+{
+  "marca": "Mazda",
+  "clase": "Sedán",
+  "modelo": 2023,
+  "cilindraje": 2.0,
+  "capacidad": 5,
+  "pago": 95000000
+}
+
+###
+
+### [5] DELETE - Eliminar vehículo por ID
+DELETE http://localhost:3000/api/cars/20
+Content-Type: application/json
+
+###
+
+### ============================================================
+### PRUEBAS DE VALIDACIÓN - cars (deben retornar error 400)
+### ============================================================
+
+### [6] POST inválido - marca vacía
+POST http://localhost:3000/api/cars
+Content-Type: application/json
+
+{
+  "marca": "",
+  "clase": "SUV",
+  "modelo": 2022,
+  "cilindraje": 2.5,
+  "capacidad": 5,
+  "pago": 85000000
+}
+
+###
+
+### [7] POST inválido - modelo fuera de rango
+POST http://localhost:3000/api/cars
+Content-Type: application/json
+
+{
+  "marca": "Ford",
+  "clase": "Pickup",
+  "modelo": 1800,
+  "cilindraje": 3.0,
+  "capacidad": 4,
+  "pago": 50000000
+}
+
+###
+
+### [8] POST inválido - pago negativo
+POST http://localhost:3000/api/cars
+Content-Type: application/json
+
+{
+  "marca": "Honda",
+  "clase": "Hatchback",
+  "modelo": 2020,
+  "cilindraje": 1.6,
+  "capacidad": 5,
+  "pago": -1000
+}
+
+###
+
+### [9] POST inválido - campos faltantes
+POST http://localhost:3000/api/cars
+Content-Type: application/json
+
+{
+  "marca": "Kia"
+}
+
+###
+
+### [10] GET por ID inexistente - debe retornar 404
+GET http://localhost:3000/api/cars/9999
+Content-Type: application/json
+
+###
+
+### ============================================================
+### TABLA: tuitions (SQL Server) — se habilita en siguiente paso
+### ============================================================
+
+### [11] GET - Obtener todas las matrículas
+GET http://localhost:3000/api/tuitions
+Content-Type: application/json
+
+###
+
+### [12] GET BY ID - Obtener matrícula por ID
+GET http://localhost:3000/api/tuitions/1
+Content-Type: application/json
+
+###
+
+### [13] POST - Crear una matrícula
+POST http://localhost:3000/api/tuitions
+Content-Type: application/json
+
+{
+  "date_matricula": "2024-03-15",
+  "ciudad": "Bogotá",
+  "car_id": 1
+}
+
+###
+
+### [14] PUT - Actualizar matrícula
+PUT http://localhost:3000/api/tuitions/1
+Content-Type: application/json
+
+{
+  "date_matricula": "2024-06-20",
+  "ciudad": "Medellín",
+  "car_id": 2
+}
+
+###
+
+### [15] DELETE - Eliminar matrícula
+DELETE http://localhost:3000/api/tuitions/1
+Content-Type: application/json
+
+###
