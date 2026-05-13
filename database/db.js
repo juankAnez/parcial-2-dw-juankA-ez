@@ -18,6 +18,26 @@ const TuitionMySQL = defineTuitionModel(mysqlDB);
 const CarMSSQL     = defineCarModel(mssqlDB);
 const TuitionMSSQL = defineTuitionModel(mssqlDB);
 
+// ─── Definir relaciones en MySQL ──────────────────────────────────────────────
+CarMySQL.hasMany(TuitionMySQL, {
+  foreignKey: 'car_id',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+TuitionMySQL.belongsTo(CarMySQL, {
+  foreignKey: 'car_id',
+});
+
+// ─── Definir relaciones en SQL Server ─────────────────────────────────────────
+CarMSSQL.hasMany(TuitionMSSQL, {
+  foreignKey: 'car_id',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+TuitionMSSQL.belongsTo(CarMSSQL, {
+  foreignKey: 'car_id',
+});
+
 // ─── Motor primario para los controladores (MySQL) ───────────────────────────
 // Cambiar a CarMSSQL / TuitionMSSQL si se prefiere SQL Server como motor activo
 const Car     = CarMySQL;
