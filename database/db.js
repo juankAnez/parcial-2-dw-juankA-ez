@@ -1,25 +1,36 @@
 // database/db.js
 // Punto central de conexiones: autentica MySQL y SQL Server,
-// importa modelos y sincroniza tablas físicas automáticamente.
+// registra ambos modelos en AMBOS motores y sincroniza tablas físicas.
 
 const mysqlDB = require('../config/mysql');
-const mssqlDB = require('../config/mssql');
+const mssqlDB  = require('../config/mssql');
 
-// ─── Importar modelos (cada modelo se registra en su instancia Sequelize) ────
-require('../models/Car');        // MySQL
-// require('../models/Tuition'); // SQL Server — se agrega en el siguiente paso
+// ─── Factory functions de modelos ────────────────────────────────────────────
+const defineCarModel     = require('../models/Car');
+const defineTuitionModel = require('../models/Tuition');
+
+// ─── Registrar modelos en AMBOS motores ──────────────────────────────────────
+// MySQL
+const CarMySQL     = defineCarModel(mysqlDB);
+const TuitionMySQL = defineTuitionModel(mysqlDB);
+
+// SQL Server
+const CarMSSQL     = defineCarModel(mssqlDB);
+const TuitionMSSQL = defineTuitionModel(mssqlDB);
+
+// ─── Motor primario para los controladores (MySQL) ───────────────────────────
+// Cambiar a CarMSSQL / TuitionMSSQL si se prefiere SQL Server como motor activo
+const Car     = CarMySQL;
+const Tuition = TuitionMySQL;
 
 /**
  * Autentica ambas conexiones de base de datos.
- * Se llama una sola vez al iniciar el servidor.
  */
 const connectDatabases = async () => {
   try {
-    // --- MySQL ---
     await mysqlDB.authenticate();
     console.log('✅ MySQL conectado correctamente');
 
-    // --- SQL Server ---
     await mssqlDB.authenticate();
     console.log('✅ SQL Server conectado correctamente');
 
@@ -30,18 +41,16 @@ const connectDatabases = async () => {
 };
 
 /**
- * Sincroniza los modelos con sus bases de datos.
- * alter: true → actualiza columnas sin eliminar datos existentes.
+ * Sincroniza los modelos en AMBOS motores.
+ * Crea/actualiza tablas 'cars' y 'tuitions' en MySQL Y SQL Server.
  */
 const syncDatabases = async () => {
   try {
-    // Sincronizar modelos MySQL
     await mysqlDB.sync({ alter: true });
-    console.log('🗄️  Tablas MySQL sincronizadas');
+    console.log('🗄️  Tablas MySQL sincronizadas (cars, tuitions)');
 
-    // Sincronizar modelos SQL Server
     await mssqlDB.sync({ alter: true });
-    console.log('🗄️  Tablas SQL Server sincronizadas');
+    console.log('🗄️  Tablas SQL Server sincronizadas (cars, tuitions)');
 
   } catch (error) {
     console.error('❌ Error al sincronizar tablas:', error.message);
@@ -49,4 +58,11 @@ const syncDatabases = async () => {
   }
 };
 
-module.exports = { connectDatabases, syncDatabases, mysqlDB, mssqlDB };
+module.exports = {
+  connectDatabases,
+  syncDatabases,
+  mysqlDB,
+  mssqlDB,
+  Car,      // Modelo activo para controladores
+  Tuition,  // Modelo activo para controladores
+};

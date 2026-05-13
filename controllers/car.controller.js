@@ -2,7 +2,7 @@
 // Controlador CRUD para la tabla 'cars' (MySQL)
 
 const { validationResult } = require('express-validator');
-const Car = require('../models/Car');
+const { Car } = require('../database/db');
 
 // ─── Respuesta estandarizada ──────────────────────────────────────────────────
 const response = (res, statusCode, status, message, data = null) => {
