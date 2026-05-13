@@ -6,6 +6,6 @@ const router = Router();
 
 // ─── Importar routers ────────────────────────────────────────────────────────
 router.use('/cars',     require('./cars.routes'));
-// router.use('/tuitions', require('./tuitions.routes')); // Se activa en el siguiente paso
+router.use('/tuitions', require('./tuitions.routes'));
 
 module.exports = router;
