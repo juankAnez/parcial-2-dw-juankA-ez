@@ -34,6 +34,12 @@ const defineTuitionModel = (sequelize) => {
       car_id: {
         type:      DataTypes.INTEGER,
         allowNull: false,
+        references: {
+          model: 'cars',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
         validate: {
           notNull: { msg: 'El car_id es obligatorio' },
           isInt:   { msg: 'El car_id debe ser un número entero' },
