@@ -10,10 +10,8 @@ const app = express();
 app.use(express.json());                          // Parsear body JSON
 app.use(express.urlencoded({ extended: true }));  // Parsear body URL-encoded
 
-// ─── Rutas ──────────────────────────────────────────────────────────────────
-// Las rutas se agregarán aquí conforme avancemos
-// app.use('/api/cars',    require('./routes/cars.routes'));
-// app.use('/api/tuitions', require('./routes/tuitions.routes'));
+// ─── Rutas de la API (/api) ──────────────────────────────────────────────────
+app.use('/api', require('./routes/index'));
 
 // ─── Ruta raíz de prueba ─────────────────────────────────────────────────────
 app.get('/', (req, res) => {
@@ -22,6 +20,10 @@ app.get('/', (req, res) => {
     message: 'API Parcial 2 - DW | Corriendo correctamente 🚀',
     version: '1.0.0',
     engines: ['MySQL', 'PostgreSQL'],
+    endpoints: {
+      cars:    '/api/cars',
+      tuitions: '/api/tuitions',
+    },
   });
 });
 

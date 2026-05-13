@@ -1,13 +1,13 @@
 // database/db.js
-// Punto central de conexiones: autentica ambas bases de datos,
+// Punto central de conexiones: autentica MySQL y SQL Server,
 // importa modelos y sincroniza tablas físicas automáticamente.
 
-const mysqlDB    = require('../config/mysql');
-const postgresDB = require('../config/postgres');
+const mysqlDB = require('../config/mysql');
+const mssqlDB = require('../config/mssql');
 
 // ─── Importar modelos (cada modelo se registra en su instancia Sequelize) ────
 require('../models/Car');        // MySQL
-// require('../models/Tuition'); // PostgreSQL — se agrega en el siguiente paso
+// require('../models/Tuition'); // SQL Server — se agrega en el siguiente paso
 
 /**
  * Autentica ambas conexiones de base de datos.
@@ -19,9 +19,9 @@ const connectDatabases = async () => {
     await mysqlDB.authenticate();
     console.log('✅ MySQL conectado correctamente');
 
-    // --- PostgreSQL ---
-    await postgresDB.authenticate();
-    console.log('✅ PostgreSQL conectado correctamente');
+    // --- SQL Server ---
+    await mssqlDB.authenticate();
+    console.log('✅ SQL Server conectado correctamente');
 
   } catch (error) {
     console.error('❌ Error al conectar bases de datos:', error.message);
@@ -39,9 +39,9 @@ const syncDatabases = async () => {
     await mysqlDB.sync({ alter: true });
     console.log('🗄️  Tablas MySQL sincronizadas');
 
-    // Sincronizar modelos PostgreSQL
-    await postgresDB.sync({ alter: true });
-    console.log('🗄️  Tablas PostgreSQL sincronizadas');
+    // Sincronizar modelos SQL Server
+    await mssqlDB.sync({ alter: true });
+    console.log('🗄️  Tablas SQL Server sincronizadas');
 
   } catch (error) {
     console.error('❌ Error al sincronizar tablas:', error.message);
@@ -49,5 +49,4 @@ const syncDatabases = async () => {
   }
 };
 
-module.exports = { connectDatabases, syncDatabases, mysqlDB, postgresDB };
-
+module.exports = { connectDatabases, syncDatabases, mysqlDB, mssqlDB };
