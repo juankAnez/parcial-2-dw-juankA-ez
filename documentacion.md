@@ -208,6 +208,8 @@ SQLSERVER_DB=parcial2
 SQLSERVER_PORT=1433
 ```
 
+**Captura de referencia:** `fotos/.env.png`
+
 #### Descripción de variables
 
 | Variable | Descripción | Valor por defecto |
@@ -236,16 +238,14 @@ Los modelos se definen mediante **factory functions** que reciben una instancia 
 
 **Archivo:** `models/Car.js`
 
+![Modelo Car](fotos/model%20cars.png)
+
 ```javascript
 const defineCarModel = (sequelize) => {
   return sequelize.define('cars', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     marca: { type: DataTypes.STRING(100), allowNull: false, validate: { ... } },
-    clase: { type: DataTypes.STRING(80), allowNull: false, validate: { ... } },
-    modelo: { type: DataTypes.INTEGER, allowNull: false, validate: { ... } },
-    cilindraje: { type: DataTypes.FLOAT, allowNull: false, validate: { ... } },
-    capacidad: { type: DataTypes.INTEGER, allowNull: false, validate: { ... } },
-    pago: { type: DataTypes.DECIMAL(12,2), allowNull: false, validate: { ... } }
+    // ... resto de campos
   }, {
     tableName: 'cars',
     timestamps: true,
@@ -271,6 +271,8 @@ const defineCarModel = (sequelize) => {
 ### Modelo: Tuition (tuitions)
 
 **Archivo:** `models/Tuition.js`
+
+![Modelo Tuition](fotos/models%20tuitions.png)
 
 ```javascript
 const defineTuitionModel = (sequelize) => {
@@ -307,6 +309,8 @@ const defineTuitionModel = (sequelize) => {
 ### Car Controller
 
 **Archivo:** `controllers/car.controller.js`
+
+![Controlador Cars](fotos/controlador%20cars.png)
 
 Funciones CRUD:
 
@@ -368,6 +372,8 @@ Base path: `/api`
 
 **Archivo:** `routes/cars.routes.js`
 
+![Rutas Cars](fotos/ruta%20cars.png)
+
 | Método | Ruta | Controlador | Validaciones |
 |--------|------|-------------|--------------|
 | GET | `/api/cars` | `getAllCars` | — |
@@ -379,6 +385,8 @@ Base path: `/api`
 ### Tuitions Routes
 
 **Archivo:** `routes/tuitions.routes.js`
+
+![Rutas Tuitions](fotos/ruta%20tuitions.png)
 
 | Método | Ruta | Controlador | Validaciones |
 |--------|------|-------------|--------------|
@@ -393,6 +401,8 @@ Base path: `/api`
 ## 7. Validaciones
 
 ### Validaciones Cars (`middlewares/car.validator.js`)
+
+![Validaciones Cars](fotos/car%20valideition.png)
 
 ```javascript
 const carValidationRules = [
@@ -427,6 +437,8 @@ const carValidationRules = [
 ```
 
 ### Validaciones Tuitions (`middlewares/tuition.validator.js`)
+
+![Validaciones Tuitions](fotos/tuition%20valideition.png)
 
 ```javascript
 const tuitionValidationRules = [
@@ -472,6 +484,8 @@ Además de los middleware, los modelos definen validaciones nativas de Sequelize
 
 **Archivo:** `config/mysql.js`
 
+![Configuración MySQL](fotos/config%20msql.png)
+
 ```javascript
 const mysqlDB = new Sequelize(
   process.env.MYSQL_DATABASE,
@@ -496,6 +510,8 @@ const mysqlDB = new Sequelize(
 
 **Archivo:** `config/mssql.js`
 
+![Configuración SQL Server](fotos/configt%20mssql.png)
+
 ```javascript
 const mssqlDB = new Sequelize(SQLSERVER_DB, SQLSERVER_USER, SQLSERVER_PASSWORD || '', {
   host: SQLSERVER_HOST,
@@ -518,6 +534,8 @@ const mssqlDB = new Sequelize(SQLSERVER_DB, SQLSERVER_USER, SQLSERVER_PASSWORD |
 
 #### Tabla `cars`
 
+![Tabla cars en MySQL](fotos/tabla%20cars%20en%20mysql.png) ![Tabla cars en SQL Server](fotos/tabla%20cars%20en%20sqlserver.png)
+
 ```sql
 CREATE TABLE cars (
   id INT PRIMARY KEY IDENTITY(1,1),  -- SQL Server
@@ -534,6 +552,8 @@ CREATE TABLE cars (
 ```
 
 #### Tabla `tuitions`
+
+![Tabla tuitions en MySQL](fotos/tabla%20tuitions%20en%20mysql.png) ![Tabla tuitions en SQL Server](fotos/tabla%20tuitions%20en%20sqleserver.png)
 
 ```sql
 CREATE TABLE tuitions (
@@ -610,6 +630,8 @@ Luego reiniciar el servidor. El sistema automáticamente:
 
 Inserta 20 vehículos con datos fake generados por Faker.js:
 
+![Datos fake de cars](fotos/datos%20de%20faker%20en%20cars.png)
+
 ```javascript
 const marcas = ['Toyota', 'Chevrolet', 'Mazda', 'Renault', 'Ford', 'Honda', 'Kia', 'Nissan', 'Hyundai', 'Volkswagen'];
 const clases = ['Sedán', 'SUV', 'Camioneta', 'Hatchback', 'Coupé', 'Convertible', 'Minivan', 'Pickup', 'Crossover', 'Van'];
@@ -631,6 +653,8 @@ await Car.bulkCreate(fakeCars, { validate: true });
 **Archivo:** `seeders/tuitions.seeder.js`
 
 Inserta 20 matrículas asociadas a vehículos existentes:
+
+![Faker en tuitions MySQL](fotos/faker%20en%20tuitions%20mysql.png)
 
 ```javascript
 const ciudades = [
@@ -666,6 +690,8 @@ npm run seed:tuitions  # Solo tuitions
 - npm o yarn
 
 ### Instalación
+
+![Servidor corriendo](fotos/servidor%20corriendo.png) ![Servidor conectado a MySQL](fotos/servidor%20corriendo%20y%20conectado%20mysql.png)
 
 ```bash
 # 1. Clonar repositorio
@@ -711,6 +737,12 @@ DELETE /api/tuitions/:id   # Eliminar matrícula
 ### Usando REST Client (VS Code)
 
 El archivo `http.http` contiene 22 requests de prueba agrupados:
+
+#### Métodos GET
+![GET por ID](fotos/metodo%20get%20por%20id.png)
+
+#### Métodos POST, PUT, DELETE
+![POST](fotos/metodo%20post.png) ![PUT](fotos/metodo%20put.png) ![DELETE](fotos/metood%20delete.png) ![POST Tuition](fotos/post%20por%20id.png)
 
 ```http
 ### GET /api/cars — Listar todos
@@ -835,44 +867,65 @@ PORT=4000
 
 ## 14. Anexo: Capturas de Pantalla
 
-La carpeta `fotos/` contiene capturas de referencia del sistema funcionando:
+La carpeta `fotos/` contiene capturas de referencia del sistema funcionando. A continuación se detalla cada imagen con su ubicación en la documentación:
 
 ### Configuración y Entorno
-- `.env.png` — Variables de entorno configuradas
-- `config msql.png` — Configuración MySQL (config/mysql.js)
-- `configt mssql.png` — Configuración SQL Server (config/mssql.js)
+
+| Imagen | Descripción | Ubicación en documento |
+|--------|-------------|------------------------|
+| ![.env](fotos/.env.png) | Variables de entorno configuradas | Sección 3 |
+| ![MySQL config](fotos/config%20msql.png) | Configuración MySQL (config/mysql.js) | Sección 8.1 |
+| ![SQL Server config](fotos/configt%20mssql.png) | Configuración SQL Server (config/mssql.js) | Sección 8.2 |
 
 ### Modelos
-- `model cars.png` — Modelo Car.js completo
-- `models tuitions.png` — Modelo Tuition.js completo
+
+| Imagen | Descripción | Ubicación en documento |
+|--------|-------------|------------------------|
+| ![Modelo Car](fotos/model%20cars.png) | Modelo Car.js completo | Sección 4 |
+| ![Modelo Tuition](fotos/models%20tuitions.png) | Modelo Tuition.js completo | Sección 4 |
 
 ### Rutas y Controladores
-- `ruta cars.png` — routes/cars.routes.js
-- `ruta tuitions.png` — routes/tuitions.routes.js
-- `controlador cars.png` — controllers/car.controller.js
+
+| Imagen | Descripción | Ubicación en documento |
+|--------|-------------|------------------------|
+| ![Rutas Cars](fotos/ruta%20cars.png) | routes/cars.routes.js | Sección 6.2 |
+| ![Rutas Tuitions](fotos/ruta%20tuitions.png) | routes/tuitions.routes.js | Sección 6.3 |
+| ![Controlador Cars](fotos/controlador%20cars.png) | controllers/car.controller.js | Sección 5.1 |
 
 ### Validaciones
-- `car valideition.png` — Validaciones de cars (car.validator.js)
-- `tuition valideition.png` — Validaciones de tuitions (tuition.validator.js)
+
+| Imagen | Descripción | Ubicación en documento |
+|--------|-------------|------------------------|
+| ![Validaciones Cars](fotos/car%20valideition.png) | Validaciones de cars (car.validator.js) | Sección 7.1 |
+| ![Validaciones Tuitions](fotos/tuition%20valideition.png) | Validaciones de tuitions (tuition.validator.js) | Sección 7.2 |
 
 ### Métodos HTTP de ejemplo
-- `metodo get por id.png` — GET /api/cars/:id
-- `metodo post.png` — POST /api/cars
-- `metodo put.png` — PUT /api/cars/:id
-- `metood delete.png` — DELETE /api/cars/:id
-- `post por id.png` — POST /api/tuitions
+
+| Imagen | Descripción | Ubicación en documento |
+|--------|-------------|------------------------|
+| ![GET por ID](fotos/metodo%20get%20por%20id.png) | GET /api/cars/:id | Sección 12 |
+| ![POST](fotos/metodo%20post.png) | POST /api/cars (éxito) | Sección 12 |
+| ![PUT](fotos/metodo%20put.png) | PUT /api/cars/:id | Sección 12 |
+| ![DELETE](fotos/metood%20delete.png) | DELETE /api/cars/:id | Sección 12 |
+| ![POST Tuition](fotos/post%20por%20id.png) | POST /api/tuitions | Sección 12 |
 
 ### Datos y Tablas
-- `datos de faker en cars.png` — Salida del seeder cars
-- `faker en tuitions mysql.png` — Salida del seeder tuitions
-- `tabla cars en mysql.png` — Estructura tabla cars en MySQL
-- `tabla tuitions en mysql.png` — Estructura tabla tuitions en MySQL
-- `tabla cars en sqlserver.png` — Estructura tabla cars en SQL Server
-- `tabla tuitions en sqleserver.png` — Estructura tabla tuitions en SQL Server
+
+| Imagen | Descripción | Ubicación en documento |
+|--------|-------------|------------------------|
+| ![Datos fake cars](fotos/datos%20de%20faker%20en%20cars.png) | Salida del seeder cars | Sección 10.1 |
+| ![Faker tuitions](fotos/faker%20en%20tuitions%20mysql.png) | Salida del seeder tuitions | Sección 10.2 |
+| ![Tabla cars MySQL](fotos/tabla%20cars%20en%20mysql.png) | Estructura tabla cars en MySQL | Sección 8.3 |
+| ![Tabla tuitions MySQL](fotos/tabla%20tuitions%20en%20mysql.png) | Estructura tabla tuitions en MySQL | Sección 8.3 |
+| ![Tabla cars SQL Server](fotos/tabla%20cars%20en%20sqlserver.png) | Estructura tabla cars en SQL Server | Sección 8.3 |
+| ![Tabla tuitions SQL Server](fotos/tabla%20tuitions%20en%20sqleserver.png) | Estructura tabla tuitions en SQL Server | Sección 8.3 |
 
 ### Servidor
-- `servidor corriendo.png` — Servidor Express iniciado
-- `servidor corriendo y conectado mysql.png` — Conexión exitosa a MySQL
+
+| Imagen | Descripción | Ubicación en documento |
+|--------|-------------|------------------------|
+| ![Servidor corriendo](fotos/servidor%20corriendo.png) | Servidor Express iniciado | Sección 11 |
+| ![MySQL conectado](fotos/servidor%20corriendo%20y%20conectado%20mysql.png) | Conexión exitosa a MySQL | Sección 11 |
 
 ---
 
