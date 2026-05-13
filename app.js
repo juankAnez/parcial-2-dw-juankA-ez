@@ -1,14 +1,15 @@
 // app.js
 // Configuración central de Express: middlewares globales y rutas
 
-const express = require('express');
+const express     = require('express');
+const errorHandler = require('./middlewares/errorHandler');
 require('dotenv').config();
 
 const app = express();
 
 // ─── Middlewares globales ────────────────────────────────────────────────────
-app.use(express.json());                          // Parsear body JSON
-app.use(express.urlencoded({ extended: true }));  // Parsear body URL-encoded
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // ─── Rutas de la API (/api) ──────────────────────────────────────────────────
 app.use('/api', require('./routes/index'));
@@ -19,9 +20,9 @@ app.get('/', (req, res) => {
     status:  'ok',
     message: 'API Parcial 2 - DW | Corriendo correctamente 🚀',
     version: '1.0.0',
-    engines: ['MySQL', 'PostgreSQL'],
+    engines: ['MySQL', 'SQL Server'],
     endpoints: {
-      cars:    '/api/cars',
+      cars:     '/api/cars',
       tuitions: '/api/tuitions',
     },
   });
@@ -34,5 +35,8 @@ app.use((req, res) => {
     message: `Ruta [${req.method}] ${req.originalUrl} no encontrada`,
   });
 });
+
+// ─── Middleware global de errores (debe ir al final) ─────────────────────────
+app.use(errorHandler);
 
 module.exports = app;
