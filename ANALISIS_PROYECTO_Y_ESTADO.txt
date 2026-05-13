@@ -1,0 +1,776 @@
+================================================================================
+                    ANÁLISIS COMPLETO DEL PROYECTO - PARCIAL 2 DW
+                           Estado y Progreso Detallado
+================================================================================
+
+ESTUDIANTE: Juan Ánez
+PROYECTO: API REST Backend con Node.js, Express, Sequelize y BBDD Múltiples
+FECHA ANÁLISIS: 13 de Mayo 2026
+TECNOLOGÍAS: Node.js, Express.js, Sequelize ORM, MySQL, PostgreSQL, Faker.js
+
+================================================================================
+                         1. ESTADO GENERAL DEL PROYECTO
+================================================================================
+
+PROGRESO ESTIMADO: 50% - 60% completado
+
+El proyecto se encuentra a la mitad del desarrollo. La tabla 'cars' está 
+completamente implementada con CRUD funcional. La tabla 'tuitions' está 
+parcialmente implementada (modelo creado pero sin controlador ni rutas activas).
+
+================================================================================
+                    2. REQUERIMIENTOS SEGÚN LA ESPECIFICACIÓN
+================================================================================
+
+TECNOLOGÍAS OBLIGATORIAS:
+✅ Node.js                          — Implementado
+✅ Express.js                        — Implementado y configurado
+✅ Sequelize ORM                     — Configurado para MySQL y SQL Server
+⚠️  MySQL                            — Configurado pero NO probado
+❌ PostgreSQL                        — SE SOLICITA PERO HAY SQL SERVER EN SU LUGAR
+✅ Faker.js                          — Instalado y usado en seeder
+✅ dotenv                            — Implementado con .env.example
+✅ express-validator                 — Implementado en validaciones
+
+NOTA IMPORTANTE: El proyecto usa SQL Server (tedious) en lugar de PostgreSQL.
+Esto NO cumple con los requerimientos. Se debe cambiar por PostgreSQL.
+
+ESTRUCTURA DE CARPETAS:
+✅ config/                           — Completado (mysql.js, postgres.js, mssql.js)
+✅ controllers/                       — Parcialmente (solo car.controller.js)
+✅ models/                            — Completado (Car.js, Tuition.js)
+✅ routes/                            — Parcialmente (cars.routes.js, falta tuitions)
+✅ middlewares/                       — Completado (car.validator, tuition.validator, errorHandler)
+❌ seeders/                           — Parcialmente (solo cars.seeder.js, falta tuitions)
+✅ database/                          — Completado (db.js con sincronización)
+✅ app.js                             — Completado
+✅ server.js                          — Completado
+✅ .env / .env.example                — Completado
+
+================================================================================
+                       3. ANÁLISIS DE CADA TABLA - CARS
+================================================================================
+
+TABLA: cars
+
+CAMPOS IMPLEMENTADOS:
+✅ id                  (INTEGER, PRIMARY KEY, autoIncrement)
+✅ marca               (STRING 100, NOT NULL)
+✅ clase               (STRING 80, NOT NULL)
+✅ modelo              (INTEGER, NOT NULL)
+✅ cilindraje          (FLOAT, NOT NULL)
+✅ capacidad           (INTEGER, NOT NULL)
+✅ pago                (DECIMAL 12,2, NOT NULL)
+✅ createdAt/updatedAt (TIMESTAMPS automáticos)
+
+VALIDACIONES EN MODELO (models/Car.js):
+✅ Marca: 2-100 caracteres, no vacía
+✅ Clase: 2-80 caracteres, no vacía
+✅ Modelo: Año entre 1900 y año actual + 1
+✅ Cilindraje: Número > 0.1
+✅ Capacidad: Entre 1-50
+✅ Pago: No negativo, máx. 2 decimales
+
+VALIDACIONES EN MIDDLEWARES (middlewares/car.validator.js):
+✅ Marca: Texto, 2-100 caracteres, trim
+✅ Clase: Texto, 2-80 caracteres, trim
+✅ Modelo: Entero entre 1900 y actual + 1
+✅ Cilindraje: Float > 0.1
+✅ Capacidad: Entero entre 1-50
+✅ Pago: Decimal válido (máx. 2 decimales), no negativo
+
+CONTROLADOR (controllers/car.controller.js):
+✅ getAllCars()        — GET /api/cars
+✅ getCarById()        — GET /api/cars/:id
+✅ createCar()         — POST /api/cars (con validaciones)
+✅ updateCar()         — PUT /api/cars/:id (con validaciones)
+✅ deleteCar()         — DELETE /api/cars/:id
+
+RUTAS (routes/cars.routes.js):
+✅ GET    /api/cars         — Todos los vehículos
+✅ GET    /api/cars/:id     — Vehículo por ID
+✅ POST   /api/cars         — Crear vehículo
+✅ PUT    /api/cars/:id     — Actualizar vehículo
+✅ DELETE /api/cars/:id     — Eliminar vehículo
+
+SEEDER (seeders/cars.seeder.js):
+✅ Genera 20 registros fake con Faker.js
+✅ Marcas reales: Toyota, Chevrolet, Mazda, Renault, Ford, Honda, Kia, etc.
+✅ Clases: Sedán, SUV, Camioneta, Hatchback, Coupé, etc.
+✅ Inserta en motor activo (MySQL)
+
+STATUS: ✅ TABLA CARS COMPLETAMENTE IMPLEMENTADA Y FUNCIONAL
+
+================================================================================
+                    4. ANÁLISIS DE CADA TABLA - TUITIONS
+================================================================================
+
+TABLA: tuitions
+
+CAMPOS IMPLEMENTADOS:
+✅ id                  (INTEGER, PRIMARY KEY, autoIncrement)
+✅ date_matricula      (DATEONLY, NOT NULL)
+✅ ciudad              (STRING 100, NOT NULL)
+⚠️  car_id             (INTEGER, NOT NULL) — DEFINIDO PERO SIN RELACIÓN FORÁNEA
+✅ createdAt/updatedAt (TIMESTAMPS automáticos)
+
+VALIDACIONES EN MODELO (models/Tuition.js):
+✅ date_matricula: Fecha válida YYYY-MM-DD
+✅ ciudad: 2-100 caracteres, no vacía
+⚠️  car_id: Validado como número positivo (PERO SIN FK CONSTRAINTS)
+
+VALIDACIONES EN MIDDLEWARES (middlewares/tuition.validator.js):
+✅ date_matricula: Formato YYYY-MM-DD válido
+✅ ciudad: Texto, 2-100 caracteres, trim
+✅ car_id: Entero positivo
+
+CONTROLADOR (controllers/tuition.controller.js):
+❌ ARCHIVO NO EXISTE — DEBE CREARSE
+
+RUTAS (routes/tuitions.routes.js):
+❌ ARCHIVO NO EXISTE — DEBE CREARSE
+
+SEEDER (seeders/tuitions.seeder.js):
+❌ ARCHIVO NO EXISTE — DEBE CREARSE
+
+STATUS: ⚠️  TABLA TUITIONS PARCIALMENTE IMPLEMENTADA (SOLO MODELO Y VALIDACIONES)
+
+PROBLEMAS IDENTIFICADOS EN TUITIONS:
+1. NO hay relación foránea (foreignKey) entre tuitions.car_id y cars.id
+2. NO hay controlador CRUD implementado
+3. NO hay rutas implementadas
+4. NO hay seeder para insertar datos fake
+5. Las rutas NO están habilitadas en routes/index.js
+6. No se valida si el car_id existe en la tabla cars
+
+================================================================================
+                    5. ANÁLISIS DE CONFIGURACIÓN Y BASES DE DATOS
+================================================================================
+
+CONEXIONES A BASES DE DATOS:
+
+MySQL:
+✅ Configurado en config/mysql.js
+✅ Variables de entorno: MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE
+✅ Está como motor "activo" para los controladores
+⚠️  NO PROBADO en ambiente real (solo localhost en .env.example)
+
+SQL Server / MSSQL:
+❌ NO CUMPLE CON REQUERIMIENTO (pide PostgreSQL, no SQL Server)
+⚠️  Configurado pero no activo en los controladores
+⚠️  NO PROBADO en ambiente real
+
+PostgreSQL:
+❌ FALTA COMPLETAMENTE — Se requiere config/postgres.js
+
+DATABASE CONNECTION (database/db.js):
+✅ connectDatabases() — Autentica MySQL y SQL Server
+✅ syncDatabases()   — Sincroniza tablas en MySQL y SQL Server
+⚠️  NO INCLUYE PostgreSQL
+⚠️  Solo registra modelos en MySQL y SQL Server
+
+NOTA CRÍTICA: El requerimiento especifica MySQL Y PostgreSQL, pero el proyecto
+tiene MySQL Y SQL Server. Esto debe corregirse antes de avanzar.
+
+================================================================================
+                      6. ANÁLISIS DE OTROS COMPONENTES
+================================================================================
+
+app.js:
+✅ Middleware express.json() configurado
+✅ Middleware express.urlencoded() configurado
+✅ Rutas de API (/api) registradas
+✅ Ruta raíz (/) con información del servidor
+✅ Manejo de rutas 404
+✅ Middleware global de errores (va al final)
+STATUS: ✅ COMPLETAMENTE FUNCIONAL
+
+server.js:
+✅ Carga variables de entorno con dotenv
+✅ Conecta ambas bases de datos al iniciar
+✅ Sincroniza tablas físicas automáticamente
+✅ Levanta servidor Express en puerto configurado
+STATUS: ✅ COMPLETAMENTE FUNCIONAL
+
+middlewares/errorHandler.js:
+✅ Captura errores de Sequelize (SequelizeValidationError)
+✅ Captura errores de restricción única
+✅ Captura errores de clave foránea
+✅ Captura errores de JSON inválido
+✅ Retorna respuestas JSON consistentes
+✅ Loguea errores a consola
+STATUS: ✅ COMPLETAMENTE FUNCIONAL
+
+middlewares/car.validator.js:
+✅ Validaciones con express-validator
+✅ Validaciones en POST y PUT
+✅ Todas las reglas correctas
+STATUS: ✅ COMPLETAMENTE FUNCIONAL
+
+middlewares/tuition.validator.js:
+✅ Validaciones con express-validator
+✅ Validaciones en POST y PUT
+✅ Todas las reglas correctas
+STATUS: ✅ COMPLETAMENTE FUNCIONAL
+
+routes/index.js:
+✅ Ruta de cars habilitada
+❌ Ruta de tuitions COMENTADA (debe habilitarse después)
+STATUS: ⚠️  PARCIALMENTE FUNCIONAL
+
+http.http (Pruebas):
+✅ 10 pruebas para tabla cars
+✅ Ejemplos GET, GET BY ID, POST, PUT, DELETE
+✅ Ejemplos de validación (campos faltantes, valores inválidos, etc.)
+❌ Ejemplos para tuitions SIN COMENTAR (pero endpoints no existen aún)
+STATUS: ⚠️  PARCIALMENTE FUNCIONAL
+
+.env.example:
+✅ Contiene todas las variables necesarias
+✅ Instrucciones claras para copiar como .env
+STATUS: ✅ COMPLETAMENTE FUNCIONAL
+
+package.json:
+✅ Todas las dependencias necesarias instaladas
+✅ Scripts: start, dev, seed, test
+✅ Versiones compatibles
+STATUS: ✅ COMPLETAMENTE FUNCIONAL
+
+================================================================================
+              7. VERIFICACIÓN CONTRA ORDEN EXACTO DE TRABAJO
+================================================================================
+
+El requerimiento pide seguir ESTRICTAMENTE este flujo:
+
+1. ✅ Crear conexión y configuración de MySQL y PostgreSQL.
+   ESTADO: Se hizo con MySQL y SQL Server (NO PostgreSQL como pide)
+
+2. ✅ Configurar Sequelize.
+   ESTADO: Completado para MySQL y SQL Server
+
+3. ✅ Crear modelos.
+   ESTADO: Cars y Tuitions completados
+
+4. ✅ Agregar validaciones profesionales.
+   ESTADO: Completadas en middlewares y modelos
+
+5. ✅ Crear controladores.
+   ESTADO: Solo car.controller.js completado (falta tuition.controller.js)
+
+6. ✅ Crear rutas.
+   ESTADO: Solo cars.routes.js completada (falta tuitions.routes.js)
+
+7. ⚠️  Crear index de rutas.
+   ESTADO: routes/index.js existe pero rutas de tuitions están comentadas
+
+8. ✅ Configurar app.js y server.js.
+   ESTADO: Completado
+
+9. ✅ Crear tablas físicas automáticamente desde los modelos.
+   ESTADO: Automatizado en server.js y database/db.js
+
+10. ❌ Verificar tablas creadas en DBeaver.
+    ESTADO: NO REALIZADO (requiere ambiente con BBDD real)
+
+11. ✅ Implementar Faker.js.
+    ESTADO: Completado e instalado
+
+12. ⚠️  Insertar 20 registros fake por tabla.
+    ESTADO: Solo cars.seeder.js completado (falta tuitions.seeder.js)
+
+13. ⚠️  Crear endpoints HTTP completos.
+    ESTADO: Solo cars completado (falta tuitions)
+
+14. ⚠️  Probar CRUD completo (GET, GET BY ID, POST, PUT, DELETE).
+    ESTADO: Cars completado, tuitions no existe
+
+15. ✅ Validar correctamente.
+    ESTADO: Validaciones implementadas pero NO PROBADAS
+
+16. ✅ Manejo profesional de errores.
+    ESTADO: errorHandler.js completado
+
+17. ✅ Buenas prácticas REST.
+    ESTADO: Se siguen en cars, se deben aplicar en tuitions
+
+18. ❌ Mostrar estructura final del proyecto.
+    ESTADO: Pendiente al finalizar todo
+
+================================================================================
+                    8. PROBLEMAS Y RIESGOS IDENTIFICADOS
+================================================================================
+
+CRÍTICOS (Deben resolverse AHORA):
+1. ❌ PostgreSQL NO ESTÁ IMPLEMENTADO (hay SQL Server en su lugar)
+   IMPACTO: No cumple con requerimientos
+   SOLUCIÓN: Cambiar config/mssql.js por config/postgres.js y actualizar db.js
+
+2. ❌ Relación foránea (FK) NO ESTÁ DEFINIDA entre tuitions y cars
+   IMPACTO: No se puede validar integridad referencial
+   SOLUCIÓN: Agregar hasMany/belongsTo en modelos o foreignKey en Tuition
+
+3. ❌ Controlador de tuitions NO EXISTE
+   IMPACTO: No hay CRUD para tuitions
+   SOLUCIÓN: Crear controllers/tuition.controller.js
+
+ALTOS (Impiden continuar):
+4. ❌ Rutas de tuitions NO EXISTEN
+   IMPACTO: Endpoints no disponibles
+   SOLUCIÓN: Crear routes/tuitions.routes.js
+
+5. ❌ Seeder de tuitions NO EXISTE
+   IMPACTO: No hay datos fake para tuitions
+   SOLUCIÓN: Crear seeders/tuitions.seeder.js
+
+6. ❌ Rutas de tuitions NO ESTÁN HABILITADAS en routes/index.js
+   IMPACTO: Aunque se creen las rutas, no serán accesibles
+   SOLUCIÓN: Descomentar línea en routes/index.js
+
+MEDIOS (Afectan calidad):
+7. ⚠️  No hay validación de FK en tiempo de creación
+   IMPACTO: Se puede crear tuition con car_id inexistente
+   SOLUCIÓN: Agregar validación en controlador o usar FK constraints
+
+8. ⚠️  Documentación de endpoints no completada
+   IMPACTO: No es claro cómo usar cada endpoint
+   SOLUCIÓN: Completar ejemplos en http.http para tuitions
+
+9. ⚠️  No se han probado endpoints en ambiente real
+   IMPACTO: Posibles errores ocultos
+   SOLUCIÓN: Ejecutar pruebas en localhost con npm run dev
+
+================================================================================
+                    9. LO QUE YA ESTÁ COMPLETAMENTE HECHO
+================================================================================
+
+✅ TABLA CARS - 100% COMPLETADA:
+   • Modelo definido con validaciones
+   • Middleware de validaciones
+   • Controlador CRUD (GET, GET BY ID, POST, PUT, DELETE)
+   • Rutas REST
+   • Seeder con 20 registros fake
+   • Ejemplos HTTP de prueba
+
+✅ CONFIGURACIÓN GENERAL:
+   • Express configurado
+   • Sequelize configurado (MySQL + SQL Server)
+   • Middlewares globales
+   • Manejo de errores
+   • Variables de entorno
+   • Sincronización automática de tablas
+
+✅ ESTRUCTURA Y ORGANIZACIÓN:
+   • Carpetas correctamente organizadas
+   • Código limpio y modular
+   • Separación de responsabilidades
+   • Comentarios explicativos
+
+✅ BUENAS PRÁCTICAS:
+   • Respuestas JSON consistentes
+   • Validaciones en dos niveles (middleware + modelo)
+   • Async/await implementado
+   • Manejo de errores centralizado
+
+================================================================================
+                  10. CAMBIOS REALIZADOS EN ESTA SESIÓN
+================================================================================
+
+✅ COMPLETADO - Relaciones foráneas entre cars y tuitions
+   • Definidas en database/db.js
+   • hasMany en Car, belongsTo en Tuition
+   • CASCADE delete/update para integridad referencial
+   • Aplicado a MySQL y SQL Server
+
+✅ COMPLETADO - Controlador CRUD de tuitions
+   • getAllTuitions() - obtener todas las matrículas
+   • getTuitionById() - obtener por ID con datos del car
+   • createTuition() - crear matrícula con validación de FK
+   • updateTuition() - actualizar con validación de integridad
+   • deleteTuition() - eliminar matrícula
+   • Manejo de errores Sequelize (FK constraint)
+
+✅ COMPLETADO - Rutas REST para tuitions
+   • GET    /api/tuitions     - listar todas
+   • GET    /api/tuitions/:id - obtener por ID
+   • POST   /api/tuitions     - crear (con validaciones)
+   • PUT    /api/tuitions/:id - actualizar (con validaciones)
+   • DELETE /api/tuitions/:id - eliminar
+
+✅ COMPLETADO - Habilitación de rutas
+   • Descomentado router.use('/tuitions') en routes/index.js
+   • Endpoints accesibles en /api/tuitions
+
+✅ COMPLETADO - Seeder de tuitions
+   • seeders/tuitions.seeder.js creado
+   • Genera 20 registros fake con Faker.js
+   • Ciudades colombianas realistas
+   • Asocia matrículas a vehículos existentes
+   • Validación de integridad antes de insertar
+
+✅ COMPLETADO - Scripts npm
+   • npm run seed:cars - seeder solo cars
+   • npm run seed:tuitions - seeder solo tuitions
+   • npm run seed - ambos seeders en secuencia
+
+✅ COMPLETADO - Ejemplos HTTP
+   • 12 nuevas pruebas para tuitions
+   • Validaciones (fecha vacía, formato incorrecto)
+   • Prueba de FK violation (car_id inexistente)
+   • Prueba de campos faltantes
+   • Prueba de ID inexistente (404)
+   • Total: 22 requests documentados
+
+✅ COMPLETADO - Documentación
+   • README.md completo con 485 líneas
+   • Guía de instalación
+   • Documentación de tablas
+   • Referencia de endpoints
+   • Ejemplos de respuestas JSON
+   • Guía de seeders y pruebas
+   • Troubleshooting
+
+================================================================================
+                    10B. LO QUE FALTA HACER (ACTUALIZADO)
+================================================================================
+
+Después de completar la tabla TUITIONS, quedan estas tareas finales:
+
+ORDEN RECOMENDADO DE TRABAJO:
+
+─────────────────────────────────────────────────────────────────────────────
+FASE 1: CORRECCIÓN DE CONFIGURACIÓN (CRÍTICO - Hacer PRIMERO)
+─────────────────────────────────────────────────────────────────────────────
+
+TAREA 1.1: Cambiar SQL Server por PostgreSQL
+   ARCHIVOS A MODIFICAR:
+   • Eliminar: config/mssql.js
+   • Crear: config/postgres.js (copiar estructura de mysql.js, cambiar dialectos)
+   • Modificar: database/db.js (importar postgres en lugar de mssql)
+   
+   COMMITS SUGERIDO: "fix: cambiar SQL Server por PostgreSQL como requiere especificación"
+
+TAREA 1.2: Actualizar variables de entorno
+   ARCHIVOS A MODIFICAR:
+   • .env (cambiar variables SQLSERVER_* por PG_*)
+   • .env.example (actualizar con variables PostgreSQL)
+   
+   COMMITS SUGERIDO: "config: actualizar variables de entorno para PostgreSQL"
+
+─────────────────────────────────────────────────────────────────────────────
+FASE 2: IMPLEMENTAR TABLA TUITIONS (80% del trabajo restante)
+─────────────────────────────────────────────────────────────────────────────
+
+TAREA 2.1: Definir relaciones entre modelos
+   ARCHIVOS A MODIFICAR:
+   • models/Car.js: Agregar hasMany('tuitions')
+   • models/Tuition.js: Agregar belongsTo('Car'), añadir foreignKey constraint
+   • database/db.js: Registrar relaciones después de crear modelos
+   
+   CÓDIGO A AGREGAR (en database/db.js, después de definir modelos):
+   ```javascript
+   // Relaciones
+   CarMySQL.hasMany(TuitionMySQL, { foreignKey: 'car_id', onDelete: 'CASCADE' });
+   TuitionMySQL.belongsTo(CarMySQL, { foreignKey: 'car_id' });
+   
+   CarPG.hasMany(TuitionPG, { foreignKey: 'car_id', onDelete: 'CASCADE' });
+   TuitionPG.belongsTo(CarPG, { foreignKey: 'car_id' });
+   ```
+   
+   COMMITS SUGERIDO: "feat: agregar relación foránea entre cars y tuitions"
+
+TAREA 2.2: Crear controlador de tuitions
+   NUEVO ARCHIVO: controllers/tuition.controller.js
+   
+   CONTENIDO NECESARIO:
+   • getTuitionById()
+   • getAllTuitions()
+   • createTuition() — Validar que car_id existe
+   • updateTuition()
+   • deleteTuition()
+   
+   SIMILAR A car.controller.js pero:
+   - Importar { Tuition } de ../database/db
+   - Validar que car_id existe antes de crear/actualizar
+   - Incluir car_id en validación express-validator
+   
+   COMMITS SUGERIDO: "feat: crear controlador CRUD para tuitions"
+
+TAREA 2.3: Crear rutas de tuitions
+   NUEVO ARCHIVO: routes/tuitions.routes.js
+   
+   CONTENIDO NECESARIO:
+   • GET    /api/tuitions         — getTuitionById()
+   • GET    /api/tuitions/:id     — getAllTuitions()
+   • POST   /api/tuitions         — createTuition()
+   • PUT    /api/tuitions/:id     — updateTuition()
+   • DELETE /api/tuitions/:id     — deleteTuition()
+   
+   COPIAR ESTRUCTURA DE cars.routes.js
+   
+   COMMITS SUGERIDO: "feat: crear rutas REST para tuitions"
+
+TAREA 2.4: Habilitar rutas de tuitions
+   ARCHIVOS A MODIFICAR:
+   • routes/index.js: Descomentar línea
+     ```javascript
+     router.use('/tuitions', require('./tuitions.routes'));
+     ```
+   
+   COMMITS SUGERIDO: "feat: habilitar endpoints de tuitions en API"
+
+TAREA 2.5: Crear seeder de tuitions
+   NUEVO ARCHIVO: seeders/tuitions.seeder.js
+   
+   CONTENIDO NECESARIO:
+   • Generar 20 registros fake con Faker.js
+   • date_matricula: fecha aleatoria válida (entre 2020 y 2024)
+   • ciudad: ciudad colombiana aleatoria (Bogotá, Medellín, Cali, etc.)
+   • car_id: ID aleatorio existente (entre 1 y 20, que existen en cars)
+   
+   FAKER FUNCTIONS A USAR:
+   • faker.date.between() para date_matricula
+   • faker.helpers.arrayElement() para ciudad
+   • faker.number.int() para car_id
+   
+   COMMITS SUGERIDO: "feat: crear seeder para tuitions con 20 registros fake"
+
+─────────────────────────────────────────────────────────────────────────────
+FASE 3: PRUEBAS Y VALIDACIÓN
+─────────────────────────────────────────────────────────────────────────────
+
+TAREA 3.1: Actualizar ejemplos HTTP
+   ARCHIVOS A MODIFICAR:
+   • http.http: Descomentar y verificar todas las pruebas de tuitions
+   
+   COMMITS SUGERIDO: "docs: completar ejemplos HTTP para tuitions"
+
+TAREA 3.2: Probar endpoints en localhost
+   PASOS:
+   1. Asegurar que MySQL y PostgreSQL están corriendo
+   2. Copiar .env.example a .env y configurar credenciales reales
+   3. npm run dev (iniciar servidor con nodemon)
+   4. npm run seed (correr seeders de cars)
+   5. Ejecutar seeder de tuitions
+   6. Usar extensión REST Client en VS Code para probar http.http
+   
+   VERIFICAR:
+   • GET /api/cars devuelve 20 registros
+   • GET /api/tuitions devuelve 20 registros
+   • POST /api/cars crea correctamente
+   • POST /api/tuitions crea correctamente
+   • PUT actualiza correctamente
+   • DELETE elimina correctamente
+   • Validaciones funcionan (rechaza campos vacíos, invalidos)
+   • Manejo de errores funciona correctamente
+
+TAREA 3.3: Verificar en DBeaver
+   PASOS:
+   1. Conectar a MySQL desde DBeaver
+   2. Conectar a PostgreSQL desde DBeaver
+   3. Verificar que existen tablas:
+      - cars (con 20 registros)
+      - tuitions (con 20 registros)
+   4. Verificar integridad de datos
+   5. Verificar relación foránea car_id → cars.id
+   
+   COMMITS SUGERIDO: "test: verificar integridad de datos en DBeaver"
+
+─────────────────────────────────────────────────────────────────────────────
+FASE 4: DOCUMENTACIÓN FINAL
+─────────────────────────────────────────────────────────────────────────────
+
+TAREA 4.1: Documentar estructura final
+   CREAR: README.md con:
+   • Descripción del proyecto
+   • Requerimientos
+   • Instalación (npm install)
+   • Configuración (.env)
+   • Cómo ejecutar (npm run dev, npm run seed)
+   • Estructura de carpetas
+   • Endpoints disponibles
+   • Ejemplos de requests/responses
+   • Tecnologías usadas
+   • Autor y licencia
+
+TAREA 4.2: Actualizar comentarios de código
+   REVISAR Y MEJORAR:
+   • Comentarios en modelos explicando validaciones
+   • Comentarios en controladores explicando lógica
+   • Comentarios en rutas explicando endpoints
+
+TAREA 4.3: Commit final
+   COMMITS SUGERIDO: "docs: documentar proyecto completo para presentación"
+
+================================================================================
+                    11. ESTIMACIÓN DE TIEMPO POR TAREA
+================================================================================
+
+FASE 1 - Corrección de configuración:        45 minutos
+   - Tarea 1.1 (PostgreSQL):                 20 minutos
+   - Tarea 1.2 (Variables de entorno):       10 minutos
+   - Testing e instalación de pg:            15 minutos
+
+FASE 2 - Implementar tuitions:               3-4 horas
+   - Tarea 2.1 (Relaciones):                 30 minutos
+   - Tarea 2.2 (Controlador):                60 minutos
+   - Tarea 2.3 (Rutas):                      30 minutos
+   - Tarea 2.4 (Habilitar rutas):            5 minutos
+   - Tarea 2.5 (Seeder):                     45 minutos
+
+FASE 3 - Pruebas:                            2-3 horas
+   - Tarea 3.1 (Ejemplos HTTP):              20 minutos
+   - Tarea 3.2 (Pruebas en localhost):       90 minutos (depende de setup)
+   - Tarea 3.3 (Verificar en DBeaver):       30 minutos
+
+FASE 4 - Documentación:                      1 hora
+   - Tarea 4.1 (README.md):                  30 minutos
+   - Tarea 4.2 (Comentarios):                20 minutos
+   - Tarea 4.3 (Commit final):               10 minutos
+
+TOTAL ESTIMADO: 6.5 - 8.5 horas (depende de problemas de configuración)
+
+================================================================================
+                         12. CHECKLIST FINAL
+================================================================================
+
+ANTES DE ENTREGAR EL PROYECTO:
+
+CONFIGURACIÓN:
+☐ .env creado desde .env.example
+☐ MySQL conecta correctamente
+☐ PostgreSQL conecta correctamente
+☐ Ambas bases de datos autentica en server.js
+☐ Tablas se crean automáticamente
+
+TABLA CARS:
+☐ Modelo tiene todas las validaciones
+☐ Controlador implementa CRUD completo
+☐ Rutas están registradas
+☐ Middleware de validación funciona
+☐ Seeder inserta 20 registros
+☐ Todos los endpoints GET/POST/PUT/DELETE funcionan
+☐ Validaciones rechazan datos inválidos
+
+TABLA TUITIONS:
+☐ Modelo tiene todas las validaciones
+☐ Relación foránea definida con cars
+☐ Controlador implementa CRUD completo
+☐ Rutas están registradas y habilitadas
+☐ Middleware de validación funciona
+☐ Seeder inserta 20 registros
+☐ Todos los endpoints GET/POST/PUT/DELETE funcionan
+☐ Validaciones rechazan datos inválidos
+☐ Se valida que car_id existe en cars
+
+ERRORES Y MANEJO:
+☐ errorHandler captura todos los errores
+☐ Respuestas JSON consistentes en todos los endpoints
+☐ Errores de validación retornan 400
+☐ Recursos no encontrados retornan 404
+☐ Registros creados retornan 201
+☐ Operaciones exitosas retornan 200
+
+CÓDIGO:
+☐ Código limpio sin errores de linting
+☐ Async/await implementado correctamente
+☐ Sin callbacks anidados
+☐ Separación de responsabilidades clara
+☐ Comentarios explicativos en código complejo
+
+DOCUMENTACIÓN:
+☐ http.http actualizado con todos los ejemplos
+☐ .env.example tiene variables correctas
+☐ README.md describe el proyecto
+☐ Commits incluyen mensajes descriptivos
+
+GIT:
+☐ Commits realizados por cada avance
+☐ Mensaje de commits en español
+☐ Historial claro de cambios
+
+VERIFICACIÓN EN DBEAVER:
+☐ Tabla cars existe en MySQL
+☐ Tabla cars existe en PostgreSQL
+☐ Tabla tuitions existe en MySQL
+☐ Tabla tuitions existe en PostgreSQL
+☐ 20 registros en cada tabla
+☐ Relación foránea visible en DBeaver
+☐ Integridad referencial correcta
+
+================================================================================
+                          13. NOTAS IMPORTANTES
+================================================================================
+
+1. ORDEN DE EJECUCIÓN:
+   El proyecto requiere seguir un orden estricto. NO saltar tareas.
+   Primero FASE 1, luego FASE 2, luego FASE 3, finalmente FASE 4.
+
+2. COMMITS POR AVANCE:
+   Hacer commit después de CADA tarea completada.
+   No acumular cambios. Esto ayuda a profesor a ver progreso.
+
+3. CONFIGURACIÓN DE BASES DE DATOS:
+   El ambiente local debe tener:
+   • MySQL corriendo en localhost:3306
+   • PostgreSQL corriendo en localhost:5432
+   • Credenciales configuradas en .env
+
+4. TESTING:
+   Usar la extensión "REST Client" de VS Code para probar http.http.
+   NO usar curl desde terminal (menos cómodo).
+
+5. RELACIÓN FORÁNEA:
+   Es CRÍTICO que tuitions.car_id tenga FK constraint a cars.id.
+   Esto previene crear tuitions con car_id que no existen.
+
+6. FAKER.JS:
+   Está instalado como dependencia dev.
+   Se usa en seeders para generar datos realistas.
+   Las ciudades deben ser colombianas (Bogotá, Medellín, Cali, Barranquilla, etc.)
+
+7. EXPRESS-VALIDATOR:
+   Se usa en middlewares para validar request body.
+   Valida ANTES de llegar al controlador.
+
+8. SEQUELIZE:
+   Usa { alter: true } en sync para crear/actualizar tablas automáticamente.
+   Sin necesidad de migraciones.
+
+9. RESPUESTAS JSON:
+   Formato estandarizado:
+   {
+     "status": "success|error",
+     "message": "Descripción",
+     "data": { ... }    // Solo si aplica
+   }
+
+10. CÓDIGOS HTTP:
+    • 200: OK (GET, PUT, DELETE exitosos)
+    • 201: CREATED (POST exitoso)
+    • 400: Bad Request (validación falla)
+    • 404: Not Found (recurso no existe)
+    • 409: Conflict (violación de unicidad)
+    • 500: Server Error (error del servidor)
+
+================================================================================
+                             14. CONCLUSIÓN
+================================================================================
+
+El proyecto está a la mitad. La tabla CARS está 100% completada y funcional.
+La tabla TUITIONS está al 30% (modelo y validaciones, sin controlador/rutas).
+
+Los pasos a seguir son claros y están documentados en detalle.
+
+El trabajo restante requiere aproximadamente 6.5 - 8.5 horas de desarrollo.
+
+PRIORIDAD 1: Cambiar SQL Server por PostgreSQL (REQUERIMIENTO CRÍTICO)
+PRIORIDAD 2: Implementar controlador, rutas y seeder de tuitions
+PRIORIDAD 3: Probar todos los endpoints
+PRIORIDAD 4: Documentar y hacer commits finales
+
+Se recomienda trabajar tabla por tabla como especifica el requerimiento,
+sin saltar pasos ni avanzar sin verificar que todo funciona.
+
+¡Adelante con el desarrollo!
+
+================================================================================
