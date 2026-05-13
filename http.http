@@ -123,7 +123,7 @@ Content-Type: application/json
 ###
 
 ### ============================================================
-### TABLA: tuitions (SQL Server) — se habilita en siguiente paso
+### TABLA: tuitions (MySQL)
 ### ============================================================
 
 ### [11] GET - Obtener todas las matrículas
@@ -164,6 +164,86 @@ Content-Type: application/json
 
 ### [15] DELETE - Eliminar matrícula
 DELETE http://localhost:3000/api/tuitions/1
+Content-Type: application/json
+
+###
+
+### ============================================================
+### PRUEBAS DE VALIDACIÓN - tuitions (deben retornar error 400)
+### ============================================================
+
+### [16] POST inválido - fecha vacía
+POST http://localhost:3000/api/tuitions
+Content-Type: application/json
+
+{
+  "date_matricula": "",
+  "ciudad": "Bogotá",
+  "car_id": 1
+}
+
+###
+
+### [17] POST inválido - fecha en formato incorrecto
+POST http://localhost:3000/api/tuitions
+Content-Type: application/json
+
+{
+  "date_matricula": "15-03-2024",
+  "ciudad": "Cali",
+  "car_id": 2
+}
+
+###
+
+### [18] POST inválido - ciudad vacía
+POST http://localhost:3000/api/tuitions
+Content-Type: application/json
+
+{
+  "date_matricula": "2024-03-15",
+  "ciudad": "",
+  "car_id": 1
+}
+
+###
+
+### [19] POST inválido - car_id negativo
+POST http://localhost:3000/api/tuitions
+Content-Type: application/json
+
+{
+  "date_matricula": "2024-03-15",
+  "ciudad": "Barranquilla",
+  "car_id": -5
+}
+
+###
+
+### [20] POST inválido - car_id no existe (FK violation)
+POST http://localhost:3000/api/tuitions
+Content-Type: application/json
+
+{
+  "date_matricula": "2024-03-15",
+  "ciudad": "Santa Marta",
+  "car_id": 9999
+}
+
+###
+
+### [21] POST inválido - campos faltantes
+POST http://localhost:3000/api/tuitions
+Content-Type: application/json
+
+{
+  "date_matricula": "2024-03-15"
+}
+
+###
+
+### [22] GET por ID inexistente - debe retornar 404
+GET http://localhost:3000/api/tuitions/9999
 Content-Type: application/json
 
 ###
